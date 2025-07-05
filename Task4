@@ -1,0 +1,45 @@
+import java.util.*;
+import java.util.stream.Collectors;
+
+public class Task4 {
+    public static void main(String[] args) {
+        List<Car> cars = List.of(
+                new Car("VIN001", "Model S", "Tesla", 2020, 30000, 80000),
+                new Car("VIN002", "X5", "BMW", 2018, 40000, 50000),
+                new Car("VIN003", "Camry", "Toyota", 2017, 60000, 20000),
+                new Car("VIN004", "A4", "Audi", 2019, 45000, 35000),
+                new Car("VIN005", "Model 3", "Tesla", 2021, 15000, 65000)
+        );
+
+        // Фильтрация пробега < 50000
+        List<Car> filtered = cars.stream()
+                .filter(car -> car.mileage < 50000)
+                .collect(Collectors.toList());
+
+        // Сортировка по цене по убыванию
+        List<Car> sortedByPriceDesc = filtered.stream()
+                .sorted(Comparator.comparingDouble(Car::getPrice).reversed())
+                .collect(Collectors.toList());
+
+        // Топ-3 самые дорогие
+        System.out.println("Топ-3 самые дорогие машины с пробегом < 50 000:");
+        sortedByPriceDesc.stream().limit(3).forEach(System.out::println);
+
+        // Средний пробег всех машин
+        double avgMileage = cars.stream()
+                .mapToInt(Car::getMileage)
+                .average()
+                .orElse(0);
+
+        System.out.printf("Средний пробег всех машин: %.2f км\n", avgMileage);
+
+        // Группировка по производителю
+        Map<String, List<Car>> groupedByManufacturer = cars.stream()
+                .collect(Collectors.groupingBy(Car::getManufacturer));
+
+        System.out.println("Машины по производителям:");
+        groupedByManufacturer.forEach((manufacturer, list) -> {
+            System.out.println(manufacturer + ": " + list);
+        });
+    }
+}
