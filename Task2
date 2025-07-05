@@ -1,0 +1,35 @@
+import java.util.*;
+
+public class Task2 {
+    public static void main(String[] args) {
+        List<String> models = new ArrayList<>(Arrays.asList(
+                "Toyota Camry", "BMW X5", "Tesla Model S", "Audi A4",
+                "Tesla Model 3", "BMW X5", "Toyota Camry", "Tesla Model X"
+        ));
+
+        System.out.println("Исходный список моделей:");
+        System.out.println(models);
+
+        // Удаляем дубликаты, сортируем в обратном алфавитном порядке
+        Set<String> uniqueModels = new TreeSet<>(Comparator.reverseOrder());
+        uniqueModels.addAll(models);
+
+        // Преобразуем обратно в список для замены "Tesla"
+        List<String> noDuplicates = new ArrayList<>(uniqueModels);
+
+        // Замена моделей с "Tesla" на "ELECTRO_CAR"
+        for (int i = 0; i < noDuplicates.size(); i++) {
+            if (noDuplicates.get(i).toLowerCase().contains("tesla")) {
+                noDuplicates.set(i, "ELECTRO_CAR");
+            }
+        }
+
+        System.out.println("Обработанный список моделей:");
+        System.out.println(noDuplicates);
+
+        // Сохраняем в Set
+        Set<String> finalSet = new LinkedHashSet<>(noDuplicates);
+        System.out.println("Финальный Set:");
+        System.out.println(finalSet);
+    }
+}
